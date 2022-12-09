@@ -5,6 +5,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import songsController from './controllers/songs.js'
+import usersController from './controllers/users.js'
 
 const app = express()
 
@@ -20,7 +21,7 @@ mongoose.set('strictQuery', false)
 mongoose
     .connect(process.env.MONGO_URI as string)
     .then(() => {
-        console.log("Connected to MongoDB)")
+        console.log("Connected to MongoDB")
     })
     .catch((error) => {
         console.log(error)
@@ -32,6 +33,7 @@ mongoose
 // Controllers
 ///////////////
 app.use('/songs', songsController)
+app.use('/users', usersController)
 
 
 //////////

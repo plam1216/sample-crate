@@ -1,6 +1,24 @@
-import mongoose, { trusted } from 'mongoose'
+import mongoose from 'mongoose'
 const { Schema } = mongoose
 
+interface Song {
+    name: string
+    album: string
+    artist: string
+    release_date: string
+    duration: number
+}
+
+interface Playlist {
+    songs: [Song]
+}
+
+interface User {
+    username?: string
+    email: string
+    pfp?: string
+    playlist: Playlist
+}
 const songSchema = new Schema({
     name: { type: String, required: true },
     album: { type: String, required: true },
@@ -20,4 +38,4 @@ const userSchema = new Schema({
     playlist: playlistSchema
 })
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model<User>('User', userSchema)

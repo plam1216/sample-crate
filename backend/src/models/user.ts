@@ -1,5 +1,4 @@
-import mongoose from 'mongoose'
-const { Schema } = mongoose
+import mongoose, { Document, Schema } from 'mongoose'
 
 interface Song {
     name: string
@@ -9,15 +8,11 @@ interface Song {
     duration: number
 }
 
-interface Playlist {
-    songs: [Song]
-}
-
-interface User {
-    username?: string
+interface User extends Document {
+    name?: string
     email: string
     pfp?: string
-    playlist: Playlist
+    playlist?: Song[]
 }
 const songSchema = new Schema({
     name: { type: String, required: true },
@@ -27,15 +22,11 @@ const songSchema = new Schema({
     duration: { type: Number, required: true }
 })
 
-const playlistSchema = new Schema({
-    songs: [songSchema]
-})
-
 const userSchema = new Schema({
-    username: String,
+    name: String,
     email: { type: String, required: true },
-    pfp: String,
-    playlist: playlistSchema
+    picture: String,
+    playlist: [songSchema]
 })
 
 export default mongoose.model<User>('User', userSchema)

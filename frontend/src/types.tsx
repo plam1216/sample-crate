@@ -12,3 +12,12 @@ export interface User extends Document {
     pfp?: string
     playlist?: Song[]
 }
+
+export interface DiscogsSongInfo {
+    name: string,
+    genre: string,
+    style: string,
+    year: string,
+    uri: string,
+  }
+  

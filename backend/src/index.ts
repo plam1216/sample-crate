@@ -15,6 +15,10 @@ app.use(express.json());
 // PORT
 const PORT = process.env.PORT || 4000
 
+// Discogs API Token
+const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+
 mongoose.set('strictQuery', false)
 
 // lets TypeScript know MONGODB_URI from process.env is a string
@@ -43,7 +47,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     // get token from Authorization header in frontend App.tsx createUser()
     const token = req.get('Authorization')
 
-    console.log("token", token)
+    // console.log("token", token)
     if (!token) return next()
 
     // 'verifyIdToken' takes argument and returns 'user' object
@@ -70,6 +74,14 @@ app.use('/users', usersController)
 //////////
 app.get('/', (req: Request, res: Response) => {
     res.send('Route is working')
+})
+
+app.get('/discogstoken', (req: Request, res: Response) => {
+    res.send(DISCOGS_TOKEN)
+})
+
+app.get('/youtubekey', (req: Request, res: Response) => {
+    res.send(YOUTUBE_API_KEY)
 })
 
 app.listen(PORT, () => {

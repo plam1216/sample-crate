@@ -14,9 +14,9 @@ export interface User extends Document {
 }
 
 export interface DiscogsSongInfo {
-    name: string,
-    genre: string,
-    style: string,
+    title: string,
+    genre: string[],
+    style: string[],
     year: string,
     uri: string,
   }

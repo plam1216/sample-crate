@@ -1,25 +1,28 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
 interface Song {
-    name: string
-    album: string
-    artist: string
-    release_date: string
-    duration: number
+    discogsTitle: string,
+    genre: string[],
+    style: string[],
+    year: string,
+    YTurl: string,
+    YTtitle: string,
 }
 
 interface User extends Document {
-    name?: string
+    username?: string
     email: string
-    pfp?: string
-    playlist?: Song[]
+    picture?: string
+    playlist: Song[]
 }
+
 const songSchema = new Schema({
-    name: { type: String, required: true },
-    album: { type: String, required: true },
-    artist: { type: String, required: true },
-    release_date: { type: String, required: true },
-    duration: { type: Number, required: true }
+    discogsTitle: { type: String, required: true },
+    genre: [{ type: String, required: true }],
+    style: [{ type: String, required: true }],
+    year: { type: String, required: true },
+    YTurl: {type: String, required: true},
+    YTtitle: {type: String, required: true}
 })
 
 const userSchema = new Schema({

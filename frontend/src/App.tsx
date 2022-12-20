@@ -1,41 +1,99 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 
 import { auth } from './services/firebase'
 import { User as FirebaseUser } from 'firebase/auth'
 
+import { getRandomSearchTerm } from './util/getRandomSerachTerm';
+import { getRandomGenre } from './util/getRandomGenre';
+import { getRandomYear } from './util/getRandomYear';
+
 import Header from './Components/Header/Header';
 import Main from './Pages/Main/Main';
 
-import { User } from './types';
+import { User, YTinfo, DiscogsSongInfo } from './types';
 
 
 function App() {
   const [fbUser, setfbUser] = useState<FirebaseUser | null>(null)
+  const [currUser, setCurrUser] = useState<User>({} as User)
   const [allUsers, setAllUsers] = useState<User[]>({} as User[])
 
-  const [discogsToken, setDiscogsToken] = useState<string | null>(null)
+  const [discogsSongInfo, setDiscogsSongInfo] = useState<DiscogsSongInfo>({} as DiscogsSongInfo)
+  const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
 
   const URL = "http://localhost:4000/users/"
   const TOKEN_URL = "http://localhost:4000/discogstoken/"
 
-  // console.log('./App token', discogsToken)
-  // console.log('./App allusers', allUsers)
+  const getRandomDiscogsSong = async () => {
+    const discogResponse = await fetch(TOKEN_URL)
+    const discogsToken = await discogResponse.text()
 
-  // get discogs token
-  const getDiscogsToken = async () => {
-    const response = await fetch(TOKEN_URL)
-    const data = await response.text()
+    let genre: string = getRandomGenre()
+    let searchTerm: string = getRandomSearchTerm()
+    let year: number = getRandomYear()
 
-    setDiscogsToken(data)
+    let response = await fetch(`https://api.discogs.com/database/search?q=${searchTerm}&type=release&genre=%${genre}&year=${year}&token=${discogsToken}`)
+
+    const data = await response.json()
+
+    // if there are no search results, get another song
+    if (data.results.length !== 0) {
+
+      // get random index from length of possible results
+      let randomIndex: number = Math.floor(Math.random() * data.results.length)
+
+      // get a random song from results
+      let song = data.results[randomIndex]
+
+      // remove backslash to prevent errors with future use of title
+      song.title = song.title.replace('/', '')
+
+      setDiscogsSongInfo({
+        discogsTitle: song.title,
+        genre: [...song.genre],
+        style: [...song.style],
+        year: song.year,
+      })
+
+      // return to break recursion
+      return
+    }
+
+    // console.log('data 0')
+    getRandomDiscogsSong()
+  }
+
+  const getVideoURL = async () => {
+    const response = await fetch("http://localhost:4000/youtubekey/")
+    const youtubeKey = await response.text()
+
+    // const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${props.discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
+
+    // const youtubeData = await youtubeResponse.json()
+
+    // let YTurl = `https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`
+    // let YTtitle = youtubeData.items[0].snippet['title']
+
+    let YTurl = `https://www.youtube.com/embed/Wxw1wNwlBbk`
+    let YTtitle = 'YTtitle test'
+
+    setYTinfo({ url: YTurl, title: YTtitle })
+
+    // setEmbedURL('https://www.youtube.com/embed/Wxw1wNwlBbk')
+    // setEmbedURL(`https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`)
   }
 
   // get all users from MongoDB
-  const getUsers = async (): Promise<void> => {
+  const getAllUsers = async (): Promise<void> => {
     const response = await fetch(URL)
     const data = await response.json()
 
+    let foundUser: User = data.filter((user: User) => user.email === fbUser?.email)[0]
+
+    setCurrUser(foundUser)
     setAllUsers(data)
   }
 
@@ -53,13 +111,14 @@ function App() {
       }
     })
 
-    getUsers()
+    getAllUsers()
   }
 
-  useEffect(() => {
-    getDiscogsToken()
-    getUsers()
+  console.log('./App currUser', currUser)
+  // console.log('/./App discogsSongInfo', discogsSongInfo.discogsTitle)
+  // console.log('./App YTinfo', YTinfo.title)
 
+  useEffect(() => {
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
 
@@ -69,19 +128,27 @@ function App() {
       // createUser in MongoDB if user logged in
       if (fbUser) createUser(fbUser)
     })
+
+    getAllUsers()
+    getRandomDiscogsSong()
+    getVideoURL()
+
     return unsubscribe
-  }, [])
+  }, [fbUser])
+
 
   return (
     <Container className="App">
       <Header
-        getUsers={getUsers}
         fbUser={fbUser}
       />
       <Main
+        currUser={currUser}
         allUsers={allUsers}
         fbUser={fbUser}
-        discogsToken={discogsToken}
+        discogsSongInfo={discogsSongInfo}
+        YTinfo={YTinfo}
+        getRandomDiscogsSong={getRandomDiscogsSong}
       />
     </Container>
   );

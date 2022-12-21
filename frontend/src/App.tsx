@@ -23,10 +23,9 @@ function App() {
   const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
 
   const URL = "http://localhost:4000/users/"
-  const TOKEN_URL = "http://localhost:4000/discogstoken/"
 
   const getRandomDiscogsSong = async () => {
-    const discogResponse = await fetch(TOKEN_URL)
+    const discogResponse = await fetch('http://localhost:4000/discogstoken/')
     const discogsToken = await discogResponse.text()
 
     let genre: string = getRandomGenre()
@@ -60,29 +59,22 @@ function App() {
       return
     }
 
-    // console.log('data 0')
     getRandomDiscogsSong()
   }
 
   const getVideoURL = async () => {
     if (discogsSongInfo.discogsTitle !== undefined) {
-      // console.log('BEFORE fetch', discogsSongInfo.discogsTitle)
 
       const response = await fetch("http://localhost:4000/youtubekey/")
       const youtubeKey = await response.text()
 
       const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
 
-      // console.log('AFTER fetch', discogsSongInfo.discogsTitle)
       const youtubeData = await youtubeResponse.json()
 
       let videoID = `${youtubeData.items[0].id['videoId']}`
       let YTtitle = youtubeData.items[0].snippet['title']
       let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
-
-      // let videoID = 'EgfsXTOn_pI'
-      // let YTtitle = 'Passionfruit'
-      // let YTthumbnail = 'https://i.ytimg.com/vi/eNHL1ZwZjk0/default.jpg'
 
       setYTinfo({
         videoID: videoID,
@@ -106,8 +98,6 @@ function App() {
       }
     })
   }
-
-  // console.log('./App', fbUser?.email)
 
   console.log('STARTUP', discogsSongInfo.discogsTitle)
   useEffect(() => {

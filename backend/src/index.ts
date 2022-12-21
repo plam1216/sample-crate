@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 4000
 // Discogs API Token
 const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+const YT_MP3_KEY = process.env.YT_MP3_KEY
 
 mongoose.set('strictQuery', false)
 
@@ -82,6 +83,10 @@ app.get('/discogstoken', (req: Request, res: Response) => {
 
 app.get('/youtubekey', (req: Request, res: Response) => {
     res.send(YOUTUBE_API_KEY)
+})
+
+app.get('/ytmp3key', (req: Request, res: Response) => {
+    res.send(YT_MP3_KEY)
 })
 
 app.listen(PORT, () => {

@@ -43,16 +43,9 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
 // create user
 userRouter.post('/', async (req: Request, res: Response) => {
     try {
-        // console.log("userRouter Post", req.body.email)
-
-        // if the User already exists, do nothing
+        // if User doesnt exist, createUser
         // find() returns [] if no matches, findOne() returns null if no matches
-        if (await User.findOne({ email: req.body.email })) {
-            console.log('hello')
-        }
-
-        // else create the user
-        else {
+        if (!await User.findOne({ email: req.body.email })) {
             console.log('created user')
             res.json(await User.create(req.body))
         }

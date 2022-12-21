@@ -1,5 +1,4 @@
 .playlist {
-    /* background-color: #6B6F89; */
     background-color: #9EC6C2;
     height: 50vh;
     margin-top: 2rem;
@@ -8,11 +7,24 @@
 
 .playlist-song {
     margin: 0.5rem;
-    /* border: 1px solid red; */
     cursor: pointer
 }
 
 .playlist-song-info {
     display: flex;
     align-items: center;
+    overflow: hidden;
+}
+
+@media (width <576px) {
+    .YTthumbnail {
+        display: block;
+        height: 10rem;
+        margin: auto;
+        text-align: center;
+    }
+
+    .playlist-song-info {
+        display: none;
+    }
 }

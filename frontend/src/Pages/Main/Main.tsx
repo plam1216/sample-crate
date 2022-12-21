@@ -39,7 +39,7 @@ const Main = (props: MainProps) => {
     getCurrUserPlaylist()
   }, [props.discogsSongInfo])
 
-  console.log('./Main', props.discogsSongInfo.discogsTitle)
+  // console.log('./Main', props.discogsSongInfo.discogsTitle)
 
   return (
     <>
@@ -56,9 +56,14 @@ const Main = (props: MainProps) => {
         getCurrUserPlaylist={getCurrUserPlaylist}
         getVideoURL={props.getVideoURL}
       />
-      <Playlist
-        currUserPlaylist={currUserPlaylist}
-      />
+      {
+        props.fbUser ?
+          <Playlist
+            currUserPlaylist={currUserPlaylist}
+          />
+          :
+          null
+      }
       {/* <SongHistory /> */}
     </>
   )

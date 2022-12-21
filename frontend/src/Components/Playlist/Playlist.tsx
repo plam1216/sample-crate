@@ -1,3 +1,4 @@
+import { Col, Container, Row } from 'react-bootstrap'
 import { Song } from '../../types'
 
 
@@ -7,20 +8,24 @@ interface PlaylistProps {
 
 
 const Playlist = (props: PlaylistProps) => {
-    console.log('playlist', props.currUserPlaylist)
     return (
-        <div className='playlist'>
+        <Container className='playlist'>
             {props.currUserPlaylist.map((song) => {
                 return (
-                    <div key={song.discogsTitle}>
-                        <img src={song.YTthumbnail} />
-                        {song.discogsTitle}
-                        {song.year}
-                    </div>
+                    <Row className='playlist-song'>
+                        <Col md={{ span: 1}}>
+                            <img src={song.YTthumbnail} style={{borderRadius: 5}}/>
+                        </Col>
+                        <Col md={{ span: 10, offset: 1 }} className='playlist-song-info'>
+                            {song.YTtitle}
+                            <br />
+                            {song.year}
+                        </Col>
+                    </Row>
                 )
             })
             }
-        </div>
+        </Container>
     )
 }
 

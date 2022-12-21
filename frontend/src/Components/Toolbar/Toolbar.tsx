@@ -5,16 +5,16 @@ import DownloadVideo from './DownloadVideo/DownloadVideo'
 import Filter from './Filter/Filter'
 import NewVideo from './NewVideo/NewVideo'
 
-import { User, YTinfo, DiscogsSongInfo } from '../../types'
+import { Song, YTinfo, DiscogsSongInfo } from '../../types'
 
 
 interface ToolbarProps {
-    currUser: User
-    allUsers: User[]
     fbUser?: FirebaseUser | null
     discogsSongInfo: DiscogsSongInfo
     YTinfo: YTinfo
+    currUserPlaylist: Song[]
     getRandomDiscogsSong: () => void
+    getCurrUserPlaylist: () => void
 }
 
 
@@ -27,11 +27,11 @@ const Toolbar = (props: ToolbarProps) => {
             {
                 props.fbUser ?
                     <AddToPlaylist
-                        currUser={props.currUser}
-                        allUsers={props.allUsers}
                         fbUser={props.fbUser}
                         discogsSongInfo={props.discogsSongInfo}
                         YTinfo={props.YTinfo}
+                        currUserPlaylist={props.currUserPlaylist}
+                        getCurrUserPlaylist={props.getCurrUserPlaylist}
                     />
                     :
                     null

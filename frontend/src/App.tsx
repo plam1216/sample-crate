@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 
 import { auth } from './services/firebase'
@@ -13,13 +12,11 @@ import { getRandomYear } from './util/getRandomYear';
 import Header from './Components/Header/Header';
 import Main from './Pages/Main/Main';
 
-import { User, YTinfo, DiscogsSongInfo } from './types';
+import { YTinfo, DiscogsSongInfo } from './types';
 
 
 function App() {
   const [fbUser, setfbUser] = useState<FirebaseUser | null>(null)
-  const [currUser, setCurrUser] = useState<User>({} as User)
-  const [allUsers, setAllUsers] = useState<User[]>({} as User[])
 
   const [discogsSongInfo, setDiscogsSongInfo] = useState<DiscogsSongInfo>({} as DiscogsSongInfo)
   const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
@@ -86,17 +83,6 @@ function App() {
     // setEmbedURL(`https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`)
   }
 
-  // get all users from MongoDB
-  const getAllUsers = async (): Promise<void> => {
-    const response = await fetch(URL)
-    const data = await response.json()
-
-    let foundUser: User = data.filter((user: User) => user.email === fbUser?.email)[0]
-
-    setCurrUser(foundUser)
-    setAllUsers(data)
-  }
-
   // create a user in MongoDB using Firebase login info
   const createUser: (fbUser: FirebaseUser | null) => Promise<void> = async (fbUser): Promise<void> => {
 
@@ -110,15 +96,16 @@ function App() {
         "Authorization": "Bearer " + token
       }
     })
-
-    getAllUsers()
   }
 
-  console.log('./App currUser', currUser)
+  console.log('./App', fbUser?.email)
   // console.log('/./App discogsSongInfo', discogsSongInfo.discogsTitle)
   // console.log('./App YTinfo', YTinfo.title)
 
   useEffect(() => {
+    getRandomDiscogsSong()
+    getVideoURL()
+
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
 
@@ -129,28 +116,24 @@ function App() {
       if (fbUser) createUser(fbUser)
     })
 
-    getAllUsers()
-    getRandomDiscogsSong()
-    getVideoURL()
-
     return unsubscribe
   }, [fbUser])
 
 
   return (
-    <Container className="App">
+    <>
       <Header
         fbUser={fbUser}
       />
-      <Main
-        currUser={currUser}
-        allUsers={allUsers}
-        fbUser={fbUser}
-        discogsSongInfo={discogsSongInfo}
-        YTinfo={YTinfo}
-        getRandomDiscogsSong={getRandomDiscogsSong}
-      />
-    </Container>
+      <Container className="App">
+        <Main
+          fbUser={fbUser}
+          discogsSongInfo={discogsSongInfo}
+          YTinfo={YTinfo}
+          getRandomDiscogsSong={getRandomDiscogsSong}
+        />
+      </Container>
+    </>
   );
 }
 

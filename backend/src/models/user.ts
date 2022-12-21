@@ -7,6 +7,7 @@ interface Song {
     year: string,
     YTurl: string,
     YTtitle: string,
+    YTthumbnail: string,
 }
 
 interface User extends Document {
@@ -22,7 +23,8 @@ const songSchema = new Schema({
     style: [{ type: String, required: true }],
     year: { type: String, required: true },
     YTurl: {type: String, required: true},
-    YTtitle: {type: String, required: true}
+    YTtitle: {type: String, required: true},
+    YTthumbnail: {type: String, required: true}
 })
 
 const userSchema = new Schema({

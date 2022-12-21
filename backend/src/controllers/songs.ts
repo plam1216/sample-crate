@@ -13,6 +13,7 @@ interface Song {
     uri: string,
     YTurl: string,
     YTtitle: string,
+    YTthumbnail: string,
 }
 
 interface User extends Document {
@@ -70,6 +71,7 @@ songsRouter.post('/users/songs', async (req: Request, res: Response) => {
         User.findOne({ email: req.body[0].email }, async (err: any, foundUser: User) => {
             req.body[1]['YTurl'] = req.body[2]['url']
             req.body[1]['YTtitle'] = req.body[2]['title']
+            req.body[1]['YTthumbnail'] = req.body[2]['thumbnail']
 
             // if not in playlist, add song to playlist
             if (!foundUser.playlist.some(song => song.discogsTitle === req.body[1].discogsTitle)) {

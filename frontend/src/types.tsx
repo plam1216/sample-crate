@@ -6,6 +6,7 @@ export interface Song {
     year: string,
     YTurl: string,
     YTtitle: string,
+    YTthumbnail: string
 }
 
 export interface User extends Document {
@@ -20,6 +21,7 @@ export interface User extends Document {
 export interface YTinfo {
     url: string,
     title: string,
+    thumbnail: string
 }
 
 export interface DiscogsSongInfo {

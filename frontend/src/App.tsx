@@ -73,14 +73,17 @@ function App() {
 
     // let YTurl = `https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`
     // let YTtitle = youtubeData.items[0].snippet['title']
+    // let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
 
     let YTurl = `https://www.youtube.com/embed/Wxw1wNwlBbk`
     let YTtitle = 'YTtitle test'
+    let YTthumbnail = 'https://i.ytimg.com/vi/eNHL1ZwZjk0/default.jpg'
 
-    setYTinfo({ url: YTurl, title: YTtitle })
-
-    // setEmbedURL('https://www.youtube.com/embed/Wxw1wNwlBbk')
-    // setEmbedURL(`https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`)
+    setYTinfo({
+      url: YTurl,
+      title: YTtitle,
+      thumbnail: YTthumbnail
+    })
   }
 
   // create a user in MongoDB using Firebase login info

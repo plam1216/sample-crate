@@ -1,9 +1,28 @@
 import express, { Request, Response } from 'express'
+import { Document } from 'mongoose'
+
 import User from '../models/user'
 
 const userRouter = express.Router()
 
-// INDEX
+interface Song {
+    discogsTitle: string,
+    genre: string[],
+    style: string[],
+    year: string,
+    uri: string,
+    YTurl: string,
+    YTtitle: string,
+}
+
+interface User extends Document {
+    username?: string
+    email: string
+    picture?: string
+    playlist: Song[]
+}
+
+// get all users
 userRouter.get('/', async (req: Request, res: Response) => {
     try {
         res.json(await User.find({}))
@@ -12,10 +31,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
     }
 })
 
-// NEW
-
-
-// DELETE
+// delete user
 userRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
         res.json(await User.findByIdAndDelete(req.params.id))
@@ -24,14 +40,10 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 })
 
-// UPDATE
-
-
-// CREATE
+// create user
 userRouter.post('/', async (req: Request, res: Response) => {
     try {
-        // console.log("userRouter Post", req.body)
-        console.log("userRouter Post", req.body.email)
+        // console.log("userRouter Post", req.body.email)
 
         // if the User already exists, do nothing
         // find() returns [] if no matches, findOne() returns null if no matches
@@ -48,11 +60,5 @@ userRouter.post('/', async (req: Request, res: Response) => {
         res.status(400).json(error)
     }
 })
-
-// EDIT
-
-
-// SHOW
-
 
 export default userRouter

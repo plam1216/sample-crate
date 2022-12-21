@@ -8,7 +8,11 @@ interface NewVideoProps {
 const NewVideo = (props: NewVideoProps) => {
   return (
     <div>
-      <Shuffle onClick={props.getRandomDiscogsSong}/>
+      <Shuffle
+        onClick={props.getRandomDiscogsSong}
+        size={40}
+        style={{ cursor: 'pointer' }}
+      />
     </div>
   )
 }

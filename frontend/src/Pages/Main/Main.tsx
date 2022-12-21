@@ -15,6 +15,7 @@ interface MainProps {
   discogsSongInfo: DiscogsSongInfo
   YTinfo: YTinfo
   getRandomDiscogsSong: () => void
+  getVideoURL: () => void
 }
 
 
@@ -29,6 +30,8 @@ const Main = (props: MainProps) => {
       let data = await response.json()
 
       setCurrUserPlaylist(data)
+    } else {
+      setCurrUserPlaylist([])
     }
   }
 
@@ -51,9 +54,12 @@ const Main = (props: MainProps) => {
         currUserPlaylist={currUserPlaylist}
         getRandomDiscogsSong={props.getRandomDiscogsSong}
         getCurrUserPlaylist={getCurrUserPlaylist}
+        getVideoURL={props.getVideoURL}
       />
-      <Playlist />
-      <SongHistory />
+      <Playlist
+        currUserPlaylist={currUserPlaylist}
+      />
+      {/* <SongHistory /> */}
     </>
   )
 }

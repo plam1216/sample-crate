@@ -15,6 +15,7 @@ interface ToolbarProps {
     currUserPlaylist: Song[]
     getRandomDiscogsSong: () => void
     getCurrUserPlaylist: () => void
+    getVideoURL: () => void
 }
 
 
@@ -23,6 +24,7 @@ const Toolbar = (props: ToolbarProps) => {
         <div className='toolbar'>
             <NewVideo
                 getRandomDiscogsSong={props.getRandomDiscogsSong}
+                getVideoURL={props.getVideoURL}
             />
             {
                 props.fbUser ?

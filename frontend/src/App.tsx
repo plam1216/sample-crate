@@ -67,7 +67,7 @@ function App() {
     const response = await fetch("http://localhost:4000/youtubekey/")
     const youtubeKey = await response.text()
 
-    // const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${props.discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
+    // const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
 
     // const youtubeData = await youtubeResponse.json()
 
@@ -102,8 +102,6 @@ function App() {
   }
 
   console.log('./App', fbUser?.email)
-  // console.log('/./App discogsSongInfo', discogsSongInfo.discogsTitle)
-  // console.log('./App YTinfo', YTinfo.title)
 
   useEffect(() => {
     getRandomDiscogsSong()
@@ -134,6 +132,7 @@ function App() {
           discogsSongInfo={discogsSongInfo}
           YTinfo={YTinfo}
           getRandomDiscogsSong={getRandomDiscogsSong}
+          getVideoURL={getVideoURL}
         />
       </Container>
     </>

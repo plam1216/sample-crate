@@ -13,6 +13,7 @@ import Header from './Components/Header/Header';
 import Main from './Pages/Main/Main';
 
 import { YTinfo, DiscogsSongInfo } from './types';
+import { Route, Switch } from 'react-router';
 
 
 function App() {
@@ -79,8 +80,8 @@ function App() {
       let YTtitle = youtubeData.items[0].snippet['title']
       let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
 
-      // let YTurl = `https://www.youtube.com/embed/Wxw1wNwlBbk`
-      // let YTtitle = 'YTtitle test'
+      // let videoID = 'EgfsXTOn_pI'
+      // let YTtitle = 'Passionfruit'
       // let YTthumbnail = 'https://i.ytimg.com/vi/eNHL1ZwZjk0/default.jpg'
 
       setYTinfo({
@@ -135,15 +136,19 @@ function App() {
       <Header
         fbUser={fbUser}
       />
-      <Container className="App">
-        <Main
-          fbUser={fbUser}
-          discogsSongInfo={discogsSongInfo}
-          YTinfo={YTinfo}
-          getRandomDiscogsSong={getRandomDiscogsSong}
-          getVideoURL={getVideoURL}
-        />
-      </Container>
+      <Switch>
+        <Route exact path='/'>
+          <Container className="App">
+            <Main
+              fbUser={fbUser}
+              discogsSongInfo={discogsSongInfo}
+              YTinfo={YTinfo}
+              getRandomDiscogsSong={getRandomDiscogsSong}
+              getVideoURL={getVideoURL}
+            />
+          </Container>
+        </Route>
+      </Switch>
     </>
   );
 }

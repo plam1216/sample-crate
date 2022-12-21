@@ -11,7 +11,7 @@ interface Song {
     style: string[],
     year: string,
     uri: string,
-    YTurl: string,
+    videoID: string,
     YTtitle: string,
     YTthumbnail: string,
 }
@@ -69,7 +69,7 @@ songsRouter.post('/users/songs', async (req: Request, res: Response) => {
 
         // find the user in MongoDB with matching email as FB user
         User.findOne({ email: req.body[0].email }, async (err: any, foundUser: User) => {
-            req.body[1]['YTurl'] = req.body[2]['url']
+            req.body[1]['videoID'] = req.body[2]['videoID']
             req.body[1]['YTtitle'] = req.body[2]['title']
             req.body[1]['YTthumbnail'] = req.body[2]['thumbnail']
 

@@ -64,26 +64,31 @@ function App() {
   }
 
   const getVideoURL = async () => {
-    const response = await fetch("http://localhost:4000/youtubekey/")
-    const youtubeKey = await response.text()
+    if (discogsSongInfo.discogsTitle !== undefined) {
+      // console.log('BEFORE fetch', discogsSongInfo.discogsTitle)
 
-    // const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
+      const response = await fetch("http://localhost:4000/youtubekey/")
+      const youtubeKey = await response.text()
 
-    // const youtubeData = await youtubeResponse.json()
+      const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
 
-    // let YTurl = `https://www.youtube.com/embed/${youtubeData.items[0].id['videoId']}`
-    // let YTtitle = youtubeData.items[0].snippet['title']
-    // let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
+      // console.log('AFTER fetch', discogsSongInfo.discogsTitle)
+      const youtubeData = await youtubeResponse.json()
 
-    let YTurl = `https://www.youtube.com/embed/Wxw1wNwlBbk`
-    let YTtitle = 'YTtitle test'
-    let YTthumbnail = 'https://i.ytimg.com/vi/eNHL1ZwZjk0/default.jpg'
+      let videoID = `${youtubeData.items[0].id['videoId']}`
+      let YTtitle = youtubeData.items[0].snippet['title']
+      let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
 
-    setYTinfo({
-      url: YTurl,
-      title: YTtitle,
-      thumbnail: YTthumbnail
-    })
+      // let YTurl = `https://www.youtube.com/embed/Wxw1wNwlBbk`
+      // let YTtitle = 'YTtitle test'
+      // let YTthumbnail = 'https://i.ytimg.com/vi/eNHL1ZwZjk0/default.jpg'
+
+      setYTinfo({
+        videoID: videoID,
+        title: YTtitle,
+        thumbnail: YTthumbnail
+      })
+    }
   }
 
   // create a user in MongoDB using Firebase login info
@@ -101,11 +106,11 @@ function App() {
     })
   }
 
-  console.log('./App', fbUser?.email)
+  // console.log('./App', fbUser?.email)
 
+  console.log('STARTUP', discogsSongInfo.discogsTitle)
   useEffect(() => {
     getRandomDiscogsSong()
-    getVideoURL()
 
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
@@ -119,6 +124,10 @@ function App() {
 
     return unsubscribe
   }, [fbUser])
+
+  useEffect(() => {
+    getVideoURL()
+  }, [discogsSongInfo])
 
 
   return (

@@ -22,7 +22,7 @@ const songSchema = new Schema({
     genre: [{ type: String, required: true }],
     style: [{ type: String, required: true }],
     year: { type: String, required: true },
-    YTurl: {type: String, required: true},
+    videoID: {type: String, required: true},
     YTtitle: {type: String, required: true},
     YTthumbnail: {type: String, required: true}
 })

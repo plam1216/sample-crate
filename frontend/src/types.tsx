@@ -19,7 +19,7 @@ export interface User extends Document {
 
 // Frontend Defined Interfaces
 export interface YTinfo {
-    url: string,
+    videoID: string,
     title: string,
     thumbnail: string
 }

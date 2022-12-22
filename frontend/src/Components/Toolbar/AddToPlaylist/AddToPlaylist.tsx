@@ -18,7 +18,7 @@ interface AddToPlaylistProps {
 const AddToPlaylist = (props: AddToPlaylistProps) => {
     const handleFavorite = async () => {
         if (props.fbUser !== undefined) {
-            await fetch(URL + 'songs/', {
+            await fetch(URL + 'users/songs/', {
                 method: "POST",
                 headers: {
                     "Content-Type": "Application/json",
@@ -30,7 +30,7 @@ const AddToPlaylist = (props: AddToPlaylistProps) => {
     }
 
     const handleUnfavorite = async () => {
-        await fetch(URL + 'songs/' + `${props.fbUser?.email}/` + `${props.discogsSongInfo.discogsTitle}/`, {
+        await fetch(URL + 'users/songs/' + props.fbUser?.email + '/' + props.discogsSongInfo.discogsTitle + '/', {
             method: "DELETE",
             headers: {
                 "Content-Type": "Application/json",

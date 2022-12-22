@@ -27,7 +27,7 @@ const Main = (props: MainProps) => {
 
   const getCurrUserPlaylist = async () => {
     if (props.fbUser?.email !== undefined) {
-      let response = await fetch(URL + 'songs/' + `${props.fbUser?.email}/`)
+      let response = await fetch(URL + 'users/songs/' + props.fbUser?.email + '/')
       let data = await response.json()
 
       setCurrUserPlaylist(data)

@@ -6,7 +6,7 @@ import { Container } from 'react-bootstrap';
 import { auth } from './services/firebase'
 import { User as FirebaseUser } from 'firebase/auth'
 
-import { getRandomSearchTerm } from './util/getRandomSerachTerm';
+import { getRandomSearchTerm } from './util/getRandomSearchTerm';
 import { getRandomGenre } from './util/getRandomGenre';
 import { getRandomYear } from './util/getRandomYear';
 
@@ -24,7 +24,7 @@ function App() {
   const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
 
   const getRandomDiscogsSong = async () => {
-    const discogResponse = await fetch('http://localhost:4000/discogstoken/')
+    const discogResponse = await fetch(URL + 'discogstoken/')
     const discogsToken = await discogResponse.text()
 
     let genre: string = getRandomGenre()
@@ -32,7 +32,6 @@ function App() {
     let year: number = getRandomYear()
 
     let response = await fetch(`https://api.discogs.com/database/search?q=${searchTerm}&type=release&genre=%${genre}&year=${year}&token=${discogsToken}`)
-
     const data = await response.json()
 
     // if there are no search results, get another song
@@ -64,14 +63,13 @@ function App() {
   const getVideoURL = async () => {
     if (discogsSongInfo.discogsTitle !== undefined) {
 
-      const response = await fetch("http://localhost:4000/youtubekey/")
+      const response = await fetch(URL + 'youtubekey/')
       const youtubeKey = await response.text()
 
       const youtubeResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&safeSearch=none&q=${discogsSongInfo.discogsTitle}&type=video&videoCategoryId=10&key=${youtubeKey}`)
-
       const youtubeData = await youtubeResponse.json()
 
-      let videoID = `${youtubeData.items[0].id['videoId']}`
+      let videoID = youtubeData.items[0].id['videoId']
       let YTtitle = youtubeData.items[0].snippet['title']
       let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
 
@@ -84,7 +82,7 @@ function App() {
   }
 
   const changeCurrentVideo = async (songTitle: string) => {
-    let response = await fetch(URL + 'songs/' + fbUser?.email + '/' + songTitle + '/')
+    let response = await fetch(URL + 'users/songs/' + fbUser?.email + '/' + songTitle + '/')
     let data = await response.json()
 
     setDiscogsSongInfo({

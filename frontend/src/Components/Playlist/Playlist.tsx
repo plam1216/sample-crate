@@ -17,7 +17,7 @@ interface PlaylistProps {
 
 const Playlist = (props: PlaylistProps) => {
     const deleteFromPlaylist = async (discogsTitle: string) => {
-        await fetch(URL + 'songs/' + `${props.fbUser.email}/` + `${discogsTitle}/`, {
+        await fetch(URL + 'users/songs/' + `${props.fbUser.email}/` + `${discogsTitle}/`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "Application/json",

@@ -36,7 +36,22 @@ songsRouter.get('/users/songs/:email', async (req: Request, res: Response) => {
 
 })
 
-// DELETE song from current user's playlist
+// GET song from current user's playlist
+songsRouter.get('/users/songs/:email/:songTitle', async (req: Request, res: Response) => {
+    try {
+        User.findOne({ email: req.params.email }, (err: any, foundUser: User) => {
+            let song = foundUser.playlist.find(song => song.discogsTitle === req.params.songTitle)
+
+            console.log('songsRouter GET FROM PLAYLIST: ', song)
+            res.status(201).json(song)
+        })
+    }
+    catch (error) {
+        res.status(400).json(error)
+    }
+})
+
+// DELETE current song from current user's playlist
 songsRouter.delete('/users/songs/:email/:songTitle', async (req: Request, res: Response) => {
     try {
         User.findOne({ email: req.params.email }, (err: any, foundUser: User) => {
@@ -56,8 +71,6 @@ songsRouter.delete('/users/songs/:email/:songTitle', async (req: Request, res: R
         res.status(400).json(error)
     }
 })
-
-// UPDATE
 
 
 // CREATE - add song to current user's playlist

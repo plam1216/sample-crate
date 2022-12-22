@@ -18,6 +18,7 @@ interface MainProps {
   YTinfo: YTinfo
   getRandomDiscogsSong: () => void
   getVideoURL: () => void
+  changeCurrentVideo: (songTitle: string) => void
 }
 
 
@@ -60,6 +61,7 @@ const Main = (props: MainProps) => {
             currUserPlaylist={currUserPlaylist}
             getCurrUserPlaylist={getCurrUserPlaylist}
             fbUser={props.fbUser}
+            changeCurrentVideo={props.changeCurrentVideo}
           />
           :
           null

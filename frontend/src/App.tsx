@@ -83,6 +83,24 @@ function App() {
     }
   }
 
+  const changeCurrentVideo = async (songTitle: string) => {
+    let response = await fetch(URL + 'songs/' + fbUser?.email + '/' + songTitle + '/')
+    let data = await response.json()
+
+    setDiscogsSongInfo({
+      discogsTitle: data.discogsTitle,
+      genre: data.genre,
+      style: data.style,
+      year: data.year,
+    })
+
+    setYTinfo({
+      videoID: data.videoID,
+      title: data.YTtitle,
+      thumbnail: data.YTthumbnail
+    })
+  }
+
   // create a user in MongoDB using Firebase login info
   const createUser: (fbUser: FirebaseUser | null) => Promise<void> = async (fbUser): Promise<void> => {
 
@@ -133,6 +151,7 @@ function App() {
               YTinfo={YTinfo}
               getRandomDiscogsSong={getRandomDiscogsSong}
               getVideoURL={getVideoURL}
+              changeCurrentVideo={changeCurrentVideo}
             />
           </Container>
         </Route>

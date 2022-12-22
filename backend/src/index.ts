@@ -36,8 +36,6 @@ mongoose
 // setup firebase admin
 let admin = require("firebase-admin");
 
-// let serviceAccount = require("./sample-crate-firebase-adminsdk-e5c0c-586e71e705.json");
-
 admin.initializeApp({
     "type": "service_account",
     "project_id": "sample-crate",

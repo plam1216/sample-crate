@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 
+import { analytics } from '../../../services/firebase'
+import { logEvent } from 'firebase/analytics'
+
 import { CloudDownload } from 'react-bootstrap-icons'
 
 import { YTinfo } from '../../../types'
@@ -37,7 +40,7 @@ const DownloadMP3 = (props: DownloadMP3Props) => {
 
   return (
     <div>
-      <a href={downloadLink} style={{ textDecoration: 'none' }}>
+      <a href={downloadLink} onClick={() => {logEvent(analytics, "download", {})}} style={{ textDecoration: 'none' }}>
         <CloudDownload
           size={40}
           style={{ cursor: 'pointer' }}

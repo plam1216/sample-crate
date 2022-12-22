@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, } from "firebase/auth";
 
 const firebaseConfig = {
@@ -14,7 +14,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+const analytics = getAnalytics(app);
+
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
@@ -22,6 +23,9 @@ const provider = new GoogleAuthProvider();
 
 const login = () => {
     signInWithPopup(auth, provider)
+    logEvent(analytics, "login", {
+        method: "Google"
+    });
 }
 
 const logout = () => {
@@ -30,5 +34,5 @@ const logout = () => {
 }
 
 export {
-    login, logout, auth
+    login, logout, auth, analytics
 }

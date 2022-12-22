@@ -9,6 +9,8 @@ import SongHistory from '../../Components/SongHistory/SongHistory'
 import { Song, YTinfo, DiscogsSongInfo } from '../../types'
 import Playlist from '../../Components/Playlist/Playlist'
 
+import { URL } from '../../config'
+
 
 interface MainProps {
   fbUser?: FirebaseUser | null
@@ -21,8 +23,6 @@ interface MainProps {
 
 const Main = (props: MainProps) => {
   const [currUserPlaylist, setCurrUserPlaylist] = useState<Song[]>([] as Song[])
-
-  const URL = "http://localhost:4000/users/"
 
   const getCurrUserPlaylist = async () => {
     if (props.fbUser?.email !== undefined) {
@@ -38,8 +38,6 @@ const Main = (props: MainProps) => {
   useEffect(() => {
     getCurrUserPlaylist()
   }, [props.discogsSongInfo])
-
-  // console.log('./Main', props.discogsSongInfo.discogsTitle)
 
   return (
     <>
@@ -60,6 +58,8 @@ const Main = (props: MainProps) => {
         props.fbUser ?
           <Playlist
             currUserPlaylist={currUserPlaylist}
+            getCurrUserPlaylist={getCurrUserPlaylist}
+            fbUser={props.fbUser}
           />
           :
           null

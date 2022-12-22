@@ -1,6 +1,15 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '../src/Components/Toolbar/toolbar.css';
+@import '../src/Components/YouTubeEmbed/YouTubeEmbed.css';
+@import '../src/Components/Playlist/Playlist.css';
+
 html,
 body {
     font-family: 'Montserrat', sans-serif;
-    height: 100vh;
     color: black;
+    background-color: #FFEDCF;
+}
+
+.App {
+    margin-bottom: 2rem;
 }

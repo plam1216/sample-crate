@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Route, Switch } from 'react-router';
 
 import { Container } from 'react-bootstrap';
 
@@ -13,7 +14,7 @@ import Header from './Components/Header/Header';
 import Main from './Pages/Main/Main';
 
 import { YTinfo, DiscogsSongInfo } from './types';
-import { Route, Switch } from 'react-router';
+import { URL } from './config';
 
 
 function App() {
@@ -21,8 +22,6 @@ function App() {
 
   const [discogsSongInfo, setDiscogsSongInfo] = useState<DiscogsSongInfo>({} as DiscogsSongInfo)
   const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
-
-  const URL = "http://localhost:4000/users/"
 
   const getRandomDiscogsSong = async () => {
     const discogResponse = await fetch('http://localhost:4000/discogstoken/')
@@ -99,7 +98,6 @@ function App() {
     })
   }
 
-  console.log('STARTUP', discogsSongInfo.discogsTitle)
   useEffect(() => {
     getRandomDiscogsSong()
 

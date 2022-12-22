@@ -3,6 +3,7 @@ import { Star, StarFill } from 'react-bootstrap-icons'
 import { User as FirebaseUser } from 'firebase/auth'
 
 import { Song, YTinfo, DiscogsSongInfo } from '../../../types'
+import { URL } from '../../../config'
 
 
 interface AddToPlaylistProps {
@@ -15,8 +16,6 @@ interface AddToPlaylistProps {
 
 
 const AddToPlaylist = (props: AddToPlaylistProps) => {
-    const URL = "http://localhost:4000/users/"
-
     const handleFavorite = async () => {
         if (props.fbUser !== undefined) {
             await fetch(URL + 'songs/', {
@@ -40,7 +39,7 @@ const AddToPlaylist = (props: AddToPlaylistProps) => {
         props.getCurrUserPlaylist()
     }
 
-    console.log('./AddToPlaylist', props.currUserPlaylist)
+    // console.log('./AddToPlaylist', props.currUserPlaylist)
 
     return (
         <div>

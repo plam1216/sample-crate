@@ -11,7 +11,7 @@
 <img src="./documentation/sample-crate-playlist.png" alt="sample-crate-playlist"/>
 
 ## Table of Contents
-- [Sample Crate](#deployment)
+- [Deployed Link](#deployment)
 - [Technologies Used](#technologiesused)
 - [Features](#features)
 - [Figma](#figma)

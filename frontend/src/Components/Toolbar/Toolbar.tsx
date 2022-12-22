@@ -1,7 +1,7 @@
 import { User as FirebaseUser } from 'firebase/auth'
 
 import AddToPlaylist from './AddToPlaylist/AddToPlaylist'
-import DownloadVideo from './DownloadVideo/DownloadVideo'
+import DownloadMP3 from './DownloadMP3/DownloadMP3'
 import Filter from './Filter/Filter'
 import NewVideo from './NewVideo/NewVideo'
 
@@ -38,8 +38,10 @@ const Toolbar = (props: ToolbarProps) => {
                     :
                     null
             }
-            <Filter />
-            <DownloadVideo />
+            {/* <Filter /> */}
+            <DownloadMP3
+                YTinfo={props.YTinfo}
+            />
         </div>
     )
 }

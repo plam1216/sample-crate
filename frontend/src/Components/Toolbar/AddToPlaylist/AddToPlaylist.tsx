@@ -1,6 +1,8 @@
 import { Star, StarFill } from 'react-bootstrap-icons'
 
 import { User as FirebaseUser } from 'firebase/auth'
+import { analytics } from '../../../services/firebase'
+import { logEvent } from 'firebase/analytics'
 
 import { Song, YTinfo, DiscogsSongInfo } from '../../../types'
 import { URL } from '../../../config'
@@ -26,6 +28,7 @@ const AddToPlaylist = (props: AddToPlaylistProps) => {
                 body: JSON.stringify([props.fbUser, props.discogsSongInfo, props.YTinfo])
             })
         }
+        logEvent(analytics, "favorited-song", {})
         props.getCurrUserPlaylist()
     }
 

@@ -1,3 +1,6 @@
+import { analytics } from '../../../services/firebase'
+import { logEvent } from 'firebase/analytics'
+
 import { Shuffle } from 'react-bootstrap-icons'
 
 
@@ -13,6 +16,7 @@ const NewVideo = (props: NewVideoProps) => {
         onClick={() => {
           props.getRandomDiscogsSong()
           props.getVideoURL()
+          logEvent(analytics, "shuffle", {})
         }}
         size={40}
         style={{ cursor: 'pointer' }}

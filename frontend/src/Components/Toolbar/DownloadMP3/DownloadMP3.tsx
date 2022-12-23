@@ -6,7 +6,7 @@ import { logEvent } from 'firebase/analytics'
 import { CloudDownload } from 'react-bootstrap-icons'
 
 import { YTinfo } from '../../../types'
-
+import { URL } from '../../../config'
 
 interface DownloadMP3Props {
   YTinfo: YTinfo
@@ -23,7 +23,7 @@ const DownloadMP3 = (props: DownloadMP3Props) => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': `${ytmp3keyData}`,
+        'X-RapidAPI-Key': ytmp3keyData,
         'X-RapidAPI-Host': 't-one-youtube-converter.p.rapidapi.com'
       }
     };
@@ -40,7 +40,11 @@ const DownloadMP3 = (props: DownloadMP3Props) => {
 
   return (
     <div>
-      <a href={downloadLink} onClick={() => {logEvent(analytics, "download", {})}} style={{ textDecoration: 'none' }}>
+      <a
+        href={downloadLink}
+        onClick={() => logEvent(analytics, "download", {})}
+        style={{ textDecoration: 'none' }}
+      >
         <CloudDownload
           size={40}
           style={{ cursor: 'pointer' }}

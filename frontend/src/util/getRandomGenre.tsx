@@ -1,7 +1,7 @@
 const genres = [
     "Blues",
     "Brass & Military",
-    "Children's",
+    // "Children's",
     "Classical",
     "Electronic",
     "Folk, World, & Country",
@@ -9,11 +9,11 @@ const genres = [
     "Hip-Hop",
     "Jazz",
     "Latin",
-    "Non-Music",
+    // "Non-Music",
     "Pop",
     "Reggae",
-    "Rock",
-    "Stage & Screen"
+    // "Rock",
+    // "Stage & Screen"
 ]
 
 // get random genre from array

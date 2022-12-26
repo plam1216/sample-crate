@@ -16,7 +16,8 @@ interface Song {
 }
 
 interface User extends Document {
-    username?: string
+    user_id: string
+    name?: string
     email: string
     picture?: string
     playlist: Song[]
@@ -43,6 +44,7 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
 // create user
 userRouter.post('/', async (req: Request, res: Response) => {
     try {
+        console.log(req.body)
         // if User doesnt exist, createUser
         // find() returns [] if no matches, findOne() returns null if no matches
         if (!await User.findOne({ email: req.body.email })) {

@@ -33,7 +33,7 @@ const AddToPlaylist = (props: AddToPlaylistProps) => {
     }
 
     const handleUnfavorite = async () => {
-        await fetch(URL + 'users/songs/' + props.fbUser?.email + '/' + props.discogsSongInfo.discogsTitle + '/', {
+        await fetch(URL + 'users/songs/' + props.fbUser?.uid + '/' + props.discogsSongInfo.discogsTitle + '/', {
             method: "DELETE",
             headers: {
                 "Content-Type": "Application/json",

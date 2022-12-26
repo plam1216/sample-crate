@@ -11,7 +11,8 @@ interface Song {
 }
 
 interface User extends Document {
-    username?: string
+    user_id: string
+    name?: string
     email: string
     picture?: string
     playlist: Song[]
@@ -28,6 +29,7 @@ const songSchema = new Schema({
 })
 
 const userSchema = new Schema({
+    user_id: String,
     name: String,
     email: { type: String, required: true },
     picture: String,

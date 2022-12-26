@@ -17,16 +17,17 @@ interface Song {
 }
 
 interface User extends Document {
-    username?: string
+    user_id: string
+    name?: string
     email: string
     picture?: string
     playlist: Song[]
 }
 
 // GET the current user's playlist
-songsRouter.get('/users/songs/:email', async (req: Request, res: Response) => {
+songsRouter.get('/users/songs/:user_id', async (req: Request, res: Response) => {
     try {
-        User.findOne({ email: req.params.email }, (err: any, foundUser: User) => {
+        User.findOne({ user_id: req.params.user_id }, (err: any, foundUser: User) => {
             res.json(foundUser.playlist)
 
         })
@@ -37,9 +38,9 @@ songsRouter.get('/users/songs/:email', async (req: Request, res: Response) => {
 })
 
 // GET song from current user's playlist
-songsRouter.get('/users/songs/:email/:songTitle', async (req: Request, res: Response) => {
+songsRouter.get('/users/songs/:user_id/:songTitle', async (req: Request, res: Response) => {
     try {
-        User.findOne({ email: req.params.email }, (err: any, foundUser: User) => {
+        User.findOne({ user_id: req.params.user_id }, (err: any, foundUser: User) => {
             let song = foundUser.playlist.find(song => song.discogsTitle === req.params.songTitle)
 
             console.log('songsRouter GET FROM PLAYLIST: ', song)
@@ -52,9 +53,9 @@ songsRouter.get('/users/songs/:email/:songTitle', async (req: Request, res: Resp
 })
 
 // DELETE current song from current user's playlist
-songsRouter.delete('/users/songs/:email/:songTitle', async (req: Request, res: Response) => {
+songsRouter.delete('/users/songs/:user_id/:songTitle', async (req: Request, res: Response) => {
     try {
-        User.findOne({ email: req.params.email }, (err: any, foundUser: User) => {
+        User.findOne({ user_id: req.params.user_id }, (err: any, foundUser: User) => {
             let songIndex = foundUser.playlist.findIndex(song => song.discogsTitle === req.params.songTitle)
 
             // if song does exist, delete it

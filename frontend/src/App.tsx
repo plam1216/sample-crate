@@ -13,7 +13,7 @@ import { getRandomYear } from './util/getRandomYear';
 import Header from './Components/Header/Header';
 import Main from './Pages/Main/Main';
 
-import { YTinfo, DiscogsSongInfo } from './types';
+import { YTinfo, DiscogsSongInfo, SearchParams } from './types';
 import { URL } from './config';
 
 
@@ -22,6 +22,8 @@ function App() {
 
   const [discogsSongInfo, setDiscogsSongInfo] = useState<DiscogsSongInfo>({} as DiscogsSongInfo)
   const [YTinfo, setYTinfo] = useState<YTinfo>({} as YTinfo)
+
+  const [filteredSearch, setFilteredSearch] = useState<SearchParams>({} as SearchParams)
 
   const getRandomDiscogsSong = async () => {
     const discogResponse = await fetch(URL + 'discogstoken/')
@@ -57,9 +59,52 @@ function App() {
       return
     }
 
+    console.log('searching...')
     getRandomDiscogsSong()
   }
 
+  const getFilteredDiscogsSong = async (genre: string, year?: number) => {
+    const discogResponse = await fetch(URL + 'discogstoken/')
+    const discogsToken = await discogResponse.text()
+
+    let searchTerm: string = getRandomSearchTerm()
+
+    let response = await fetch(`https://api.discogs.com/database/search?q=${searchTerm}&type=release&genre=%${genre}&year=${year}&token=${discogsToken}`)
+    const data = await response.json()
+
+    // if there are no search results, get another song
+    if (data.results.length !== 0) {
+
+      // get random index from length of possible results
+      let randomIndex: number = Math.floor(Math.random() * data.results.length)
+
+      // get a random song from results
+      let song = data.results[randomIndex]
+
+      // remove backslash to prevent errors with future use of title
+      song.title = song.title.replace('/', '')
+
+      setFilteredSearch({
+        genre: genre,
+        year: year,
+      })
+
+      setDiscogsSongInfo({
+        discogsTitle: song.title,
+        genre: [...song.genre],
+        style: [...song.style],
+        year: song.year,
+      })
+
+      // return to break recursion
+      return
+    }
+
+    console.log('searching...')
+    getFilteredDiscogsSong(genre, year)
+  }
+
+  // get YouTube video info
   const getVideoURL = async () => {
     if (discogsSongInfo.discogsTitle !== undefined) {
 
@@ -73,6 +118,10 @@ function App() {
       let YTtitle = youtubeData.items[0].snippet['title']
       let YTthumbnail = youtubeData.items[0].snippet['thumbnails'].default.url
 
+      // let videoID = 'COz9lDCFHjw'
+      // let YTtitle = 'Passionfruit'
+      // let YTthumbnail = 'thumbnails'
+
       setYTinfo({
         videoID: videoID,
         title: YTtitle,
@@ -81,8 +130,9 @@ function App() {
     }
   }
 
+  // change current video with one from Playlist
   const changeCurrentVideo = async (songTitle: string) => {
-    let response = await fetch(URL + 'users/songs/' + fbUser?.email + '/' + songTitle + '/')
+    let response = await fetch(URL + 'users/songs/' + fbUser?.uid + '/' + songTitle + '/')
     let data = await response.json()
 
     setDiscogsSongInfo({
@@ -105,7 +155,7 @@ function App() {
     // send a JWT from frontend to backend to access Firebase login info in backend/index.ts
     const token = await fbUser?.getIdToken()
 
-    await fetch(URL, {
+    await fetch(URL + "users/", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
@@ -114,26 +164,28 @@ function App() {
     })
   }
 
-  useEffect(() => {
-    getRandomDiscogsSong()
 
+  useEffect(() => {
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
-
+      
       // set fbUser to logged in user upon login or null on logout
       setfbUser(fbUser)
-
+      
       // createUser in MongoDB if user logged in
       if (fbUser) createUser(fbUser)
     })
-
+    
     return unsubscribe
-  }, [fbUser])
-
+  }, [])
+  
   useEffect(() => {
+    filteredSearch.genre ? getFilteredDiscogsSong(filteredSearch.genre, filteredSearch.year) : getRandomDiscogsSong()
     getVideoURL()
   }, [discogsSongInfo])
 
+  // console.log('filteredSearch', filteredSearch)
+  // console.log('discogsSongInfo', discogsSongInfo)
 
   return (
     <>
@@ -146,10 +198,12 @@ function App() {
             <Main
               fbUser={fbUser}
               discogsSongInfo={discogsSongInfo}
+              filteredSearch={filteredSearch}
               YTinfo={YTinfo}
-              getRandomDiscogsSong={getRandomDiscogsSong}
               getVideoURL={getVideoURL}
               changeCurrentVideo={changeCurrentVideo}
+              getRandomDiscogsSong={getRandomDiscogsSong}
+              getFilteredDiscogsSong={getFilteredDiscogsSong}
             />
           </Container>
         </Route>

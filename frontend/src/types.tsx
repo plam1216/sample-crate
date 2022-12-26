@@ -10,7 +10,8 @@ export interface Song {
 }
 
 export interface User extends Document {
-    username?: string
+    user_id: string
+    name?: string
     email: string
     picture?: string
     playlist: Song[]
@@ -29,5 +30,15 @@ export interface DiscogsSongInfo {
     genre: string[],
     style: string[],
     year: string,
-  }
-  
+}
+
+export interface FilterForm {
+    genre: string
+    minYear: number
+    maxYear: number
+}
+
+export interface SearchParams {
+    genre: string
+    year?: number
+}

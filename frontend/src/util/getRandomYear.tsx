@@ -1,3 +1,3 @@
-export const getRandomYear = (): number => {
-    return Math.floor(Math.random() * 122) + 1900
+export const getRandomYear = (year: number = 122): number => {
+    return Math.floor(Math.random() * year) + 1900
   }

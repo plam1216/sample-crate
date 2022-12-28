@@ -18,7 +18,7 @@ const ShuffleSong = (props: ShuffleSongProps) => {
     <div>
       <Shuffle
         onClick={() => {
-          props.filteredSearch ? props.getFilteredDiscogsSong(props.filteredSearch.genre, props.filteredSearch.year) : props.getRandomDiscogsSong()
+          props.filteredSearch.genre ? props.getFilteredDiscogsSong(props.filteredSearch.genre, props.filteredSearch.year) : props.getRandomDiscogsSong()
           props.getVideoURL()
           logEvent(analytics, "shuffle", {})
         }}

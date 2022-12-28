@@ -43,7 +43,7 @@ const Filter = (props: FilterProps) => {
 
   // search song based on filter parameters
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault()
+    event.preventDefault()
 
     let max = formData.maxYear
     let min = formData.minYear

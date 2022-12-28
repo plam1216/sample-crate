@@ -166,26 +166,24 @@ function App() {
 
 
   useEffect(() => {
+    getRandomDiscogsSong()
+    getVideoURL()
+
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
-      
+
       // set fbUser to logged in user upon login or null on logout
       setfbUser(fbUser)
-      
+
       // createUser in MongoDB if user logged in
       if (fbUser) createUser(fbUser)
     })
-    
+
     return unsubscribe
   }, [])
-  
-  useEffect(() => {
-    filteredSearch.genre ? getFilteredDiscogsSong(filteredSearch.genre, filteredSearch.year) : getRandomDiscogsSong()
-    getVideoURL()
-  }, [discogsSongInfo])
 
-  // console.log('filteredSearch', filteredSearch)
-  // console.log('discogsSongInfo', discogsSongInfo)
+  // useEffect(() => {
+  // }, [discogsSongInfo])
 
   return (
     <>

@@ -167,7 +167,6 @@ function App() {
 
   useEffect(() => {
     getRandomDiscogsSong()
-    getVideoURL()
 
     // onAuthStateChanged triggers when someone logs in or logs out
     const unsubscribe = auth.onAuthStateChanged(fbUser => {
@@ -182,8 +181,10 @@ function App() {
     return unsubscribe
   }, [])
 
-  // useEffect(() => {
-  // }, [discogsSongInfo])
+  useEffect(() => {
+        getVideoURL()
+  }, [discogsSongInfo])
+  
 
   return (
     <>

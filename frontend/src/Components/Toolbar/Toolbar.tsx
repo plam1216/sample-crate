@@ -6,6 +6,7 @@ import Filter from './Filter/Filter'
 import ShuffleSong from './ShuffleSong/ShuffleSong'
 
 import { Song, YTinfo, DiscogsSongInfo, SearchParams } from '../../types'
+import SongInfo from './SongInfo/SongInfo'
 
 
 interface ToolbarProps {
@@ -46,6 +47,9 @@ const Toolbar = (props: ToolbarProps) => {
             <Filter
                 getFilteredDiscogsSong={props.getFilteredDiscogsSong}
                 getVideoURL={props.getVideoURL}
+            />
+            <SongInfo
+                discogsSongInfo={props.discogsSongInfo}
             />
             <DownloadMP3
                 YTinfo={props.YTinfo}

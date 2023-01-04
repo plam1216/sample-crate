@@ -5,10 +5,9 @@
 
 ## <a name="deployment"></a> Deployed Link
 [Sample Crate](https://sample-crate.web.app/)
-- Site may take some time to load (~30 sec) due to server hosting site
 - If API quota is exceeded, the site will fail to get a new video and be unable to download
 <img src="./documentation/sample-crate.png" alt="sample-crate"/>
-<img src="./documentation/sample-crate-playlist.png" alt="sample-crate-playlist"/>
+<img src="./documentation/sample-crate-playlist.png" alt="sample-crate-features"/>
 
 ## Table of Contents
 - [Deployed Link](#deployment)
@@ -23,7 +22,7 @@
 - TypeScript
 - React.js
 - MongoDB
-- Firebase Authentication
+- Firebase Authentication & Analytics
 - HTML
 - CSS
 - React-Bootstrap
@@ -34,6 +33,7 @@
 ## <a name="features"></a> Features
 - Songs are randomly generated for users to sample
 - Download link available to get quick access to MP3 file 
+- Songs can be filtered by genre and year
 - Optionally, users can login using their Google account which allows them to also create a playlist of songs
 
 ## <a name="figma"></a> Figma
@@ -55,5 +55,5 @@
 - [React-Bootstrap](https://react-bootstrap.github.io/)
 
 ## <a name="futureimplementations"></a> Future Implementations:
-- Filter song by genre & year 
+- Improve Filter Search
 - Song History

@@ -7,7 +7,7 @@
 [Sample Crate](https://sample-crate.web.app/)
 - If API quota is exceeded, the site will fail to get a new video and be unable to download
 <img src="./documentation/sample-crate.png" alt="sample-crate"/>
-<img src="./documentation/sample-crate-playlist.png" alt="sample-crate-features"/>
+<img src="./documentation/sample-crate-features.png" alt="sample-crate-features"/>
 
 ## Table of Contents
 - [Deployed Link](#deployment)

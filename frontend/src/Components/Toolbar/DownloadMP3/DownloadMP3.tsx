@@ -42,12 +42,12 @@ const DownloadMP3 = (props: DownloadMP3Props) => {
     <div>
       <a
         href={downloadLink}
-        onClick={() => logEvent(analytics, "download", {})}
         style={{ textDecoration: 'none' }}
       >
         <CloudDownload
           size={40}
           style={{ cursor: 'pointer' }}
+          onClick={() => logEvent(analytics, "download", {})}
         ></CloudDownload>
       </a>
     </div>

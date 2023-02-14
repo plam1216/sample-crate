@@ -38,7 +38,7 @@ function App() {
     let response = await fetch(`https://api.discogs.com/database/search?q=${searchTerm}&type=release&genre=%${genre}&year=${year}&token=${discogsToken}`)
     const data = await response.json()
 
-    // if there are no search results, get another song
+    // if results are not empty
     if (data.results.length !== 0) {
 
       // get random index from length of possible results
@@ -61,6 +61,7 @@ function App() {
       return
     }
 
+    // results empty, continue searching
     console.log('searching...')
     getRandomDiscogsSong()
   }

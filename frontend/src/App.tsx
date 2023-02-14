@@ -26,13 +26,15 @@ function App() {
   const [filteredSearch, setFilteredSearch] = useState<SearchParams>({} as SearchParams)
 
   const getRandomDiscogsSong = async () => {
-    const discogResponse = await fetch(URL + 'discogstoken/')
-    const discogsToken = await discogResponse.text()
+    // GET discogsToken
+    const discogsResponse = await fetch(URL + 'discogstoken/')
+    const discogsToken = await discogsResponse.text()
 
     let genre: string = getRandomGenre()
     let searchTerm: string = getRandomSearchTerm()
     let year: number = getRandomYear()
 
+    // use token, genre, searchTerm, and year to GET a song
     let response = await fetch(`https://api.discogs.com/database/search?q=${searchTerm}&type=release&genre=%${genre}&year=${year}&token=${discogsToken}`)
     const data = await response.json()
 
@@ -45,7 +47,7 @@ function App() {
       // get a random song from results
       let song = data.results[randomIndex]
 
-      // remove backslash to prevent errors with future use of title
+      // remove backslash to prevent errors in the future when using the song title
       song.title = song.title.replace('/', '')
 
       setDiscogsSongInfo({
@@ -64,8 +66,8 @@ function App() {
   }
 
   const getFilteredDiscogsSong = async (genre: string, year?: number) => {
-    const discogResponse = await fetch(URL + 'discogstoken/')
-    const discogsToken = await discogResponse.text()
+    const discogsResponse = await fetch(URL + 'discogstoken/')
+    const discogsToken = await discogsResponse.text()
 
     let searchTerm: string = getRandomSearchTerm()
 
